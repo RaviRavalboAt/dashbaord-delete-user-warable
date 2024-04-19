@@ -1,0 +1,52 @@
+.main-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.left__main-mobile {
+    width: 50%;
+}
+
+.right__main-mobile {
+    width: 50%;
+}
+
+
+.right_main-mobile-card {
+    width: 600px;
+    background-color: #ffff;
+    height: 400px;
+    display: flex;
+    justify-content:space-evenly;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.right_main-mobile-card-header {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.right_main-mobile-card-body {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+.mobile-iput  {
+    width: 70%;
+    margin-bottom: 40px;
+}
+
+.right_main-mobile-card-action {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}

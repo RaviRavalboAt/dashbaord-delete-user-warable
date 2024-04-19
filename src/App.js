@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import PageLayout from './Layout/PageLayout';
+import MainPage from "./Screen/MainPage/MainPage"
+import OTPVerificationPage from "./Screen/OTPVerificationScreen/OTPVerificationPage"
+import SuccessPage from "./Screen/SuccessScreen/SuccessPage"
+
 
 function App() {
+  const [page, setpage] = useState("otp")
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className='app'>
+   <PageLayout>
+    {page === "main" ?  
+    <MainPage 
+    page={page}
+    setpage={(page) => setpage(page)}>
+    </MainPage> : null}
+
+
+    {page === "otp" ?  
+    <OTPVerificationPage  
+    page={page}
+    setpage={(page) => setpage(page)}>
+    </OTPVerificationPage> : null}
+
+
+    {page === "success" ?  
+    <SuccessPage
+    page={page}
+    setpage={(page) => setpage(page)}
+    ></SuccessPage> : null}
+   </PageLayout>
+   </div>
   );
+  
 }
 
 export default App;
