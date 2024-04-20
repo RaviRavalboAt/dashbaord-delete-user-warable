@@ -50,3 +50,9 @@
     flex-direction: row-reverse;
     justify-content: center;
 }
+
+.otp-button-position{
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+}

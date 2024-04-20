@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "./OTPVerificationPage.css"
 import { Input } from 'antd';
-import { DELETE_URL, VERIFY_OTP } from '../../constant';
+import { DELETE_URL, GENRATE_OTP, VERIFY_OTP } from '../../constant';
 import { Button, message, Space } from 'antd';
 import axios from 'axios';
 
@@ -26,8 +26,8 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader }) => {
       setloader(true)
       let res = await axios.post(VERIFY_OTP, payload, { headers });
       setloader(false)
-     
-      if (res.data.statusCode == 200) {
+
+      if (res.data.statusCode === 200) {
 
         const authToken = res.data.data.token;
 
@@ -41,25 +41,65 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader }) => {
           'Content-Type': 'application/json',
         };
 
-       let response = await axios.delete(DELETE_URL, {
+        let response = await axios.delete(DELETE_URL, {
           headers,
-          data: payload, 
+          data: payload,
         })
-         
 
-        if (response.data.statusCode == 200) {
+
+        if (response.data.statusCode === 200) {
           setpage("success")
         }
         else {
           setloader(false)
           messageApi.open({
             type: 'warning',
-            content: 'Something went wrong',
+            content: 'User not found',
           });
         }
 
       }
       else {
+        messageApi.open({
+          type: 'warning',
+          content: 'OTP is Invalid',
+        });
+      }
+    }
+    catch (err) {
+      setloader(false)
+      messageApi.open({
+        type: 'error',
+        content: 'Something went wrong',
+      });
+    }
+
+  }
+
+  const handleResendOtp = async () => {
+    try {
+
+      const payload = {
+        mobile,
+        countryCode: "+91"
+      }
+
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+
+      setloader(true)
+      let res = await axios.post(GENRATE_OTP, payload, { headers })
+      setloader(false)
+     
+      if (res.data.statusCode === 200) {
+        messageApi.open({
+          type: 'success',
+          content: res.data.message,
+        });
+      }
+      else{
+        setloader(false)
         messageApi.open({
           type: 'warning',
           content: 'Something went wrong',
@@ -73,7 +113,6 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader }) => {
         content: 'Something went wrong',
       });
     }
-
   }
 
   return (
@@ -96,7 +135,15 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader }) => {
               onChange={(e) => setOtp(e.target.value)}
               value-={otp}
               className='mobile-iput' />
-            <Button type="primary" onClick={() => handleOnClick()}>Verify OTP</Button>
+
+            <div className='otp-button-position'>
+              <div className='first-btn'>
+                <Button onClick={() => handleResendOtp()}>Resend OTP</Button>
+              </div>
+
+              <div className='second-btn'>
+                <Button type="primary" onClick={() => handleOnClick()}>Verify OTP</Button></div>
+            </div>
           </div>
           <div className="right_main-mobile-card-action">
 

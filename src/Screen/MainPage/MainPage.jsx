@@ -33,7 +33,7 @@ const MainScreen = ({ messageApi,mobile,setpage, setmobile, loader, setloader })
       let res = await axios.post(GENRATE_OTP, payload, { headers })
       setloader(false)
      
-      if (res.data.statusCode == 200) {
+      if (res.data.statusCode === 200) {
         messageApi.open({
           type: 'success',
           content: res.data.message,
