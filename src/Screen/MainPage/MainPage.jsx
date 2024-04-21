@@ -4,6 +4,9 @@ import { Input } from 'antd';
 import { GENRATE_OTP } from '../../constant';
 import { Button, message, Space } from 'antd';
 import axios from 'axios';
+import {PhoneFilled, } from '@ant-design/icons';
+
+
 
 
 
@@ -72,6 +75,7 @@ const MainScreen = ({ messageApi,mobile,setpage, setmobile, loader, setloader })
           </div>
           <div className="right_main-mobile-card-body">
             <Input
+              addonBefore={<PhoneFilled />}
               placeholder="Enter Mobile Number"
               size='large'
               onChange={(e) => setmobile(e.target.value)}
