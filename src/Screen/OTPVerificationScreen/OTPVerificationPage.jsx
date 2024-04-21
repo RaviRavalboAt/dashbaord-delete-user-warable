@@ -126,7 +126,7 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader, countryCod
     catch (err) {
       setloader(false)
       messageApi.open({
-        type: 'error',
+        type: 'warning',
         content: 'Something went wrong',
       });
     }

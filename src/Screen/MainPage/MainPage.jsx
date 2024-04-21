@@ -11,11 +11,11 @@ const { Option } = Select;
 
 const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader , countryCode, setCountryCode }) => {
 
- 
+
   const handleCountryCode = (value) => {
     setCountryCode(value);
   };
-  
+
   const countryCodeSelect = (
     <Select value={countryCode} onChange={handleCountryCode} >
       <Option value="+91">+91</Option>
@@ -41,7 +41,7 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader 
       setloader(true)
       let res = await axios.post(GENRATE_OTP, payload, { headers })
       setloader(false)
-
+    
       if (res.data.statusCode === 200) {
         messageApi.open({
           type: 'success',
@@ -58,11 +58,24 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader 
       }
     }
     catch (err) {
-      setloader(false)
-      messageApi.open({
-        type: 'error',
-        content: 'Something went wrong',
-      });
+      if (err.response) {
+        const statusCode = err.response.status;
+        switch (statusCode) {
+          case 401:
+            setloader(false)
+            messageApi.open({
+              type: 'warning',
+              content: 'User not found',
+            });
+            break;
+        }
+      } else {
+        setloader(false)
+        messageApi.open({
+          type: 'warning',
+          content: 'Something went wrong',
+        });
+      }
     }
   }
 
@@ -80,7 +93,7 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader 
             <h2>Delete User Accout</h2>
           </div>
           <div className="right_main-mobile-card-body">
-      
+
 
             <Input addonBefore={countryCodeSelect} placeholder="Enter Mobile Number"
               size='large'
