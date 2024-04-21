@@ -61,7 +61,7 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader 
       if (err.response) {
         const statusCode = err.response.status;
         switch (statusCode) {
-          case 401:
+          case 400:
             setloader(false)
             messageApi.open({
               type: 'warning',
