@@ -1,28 +1,37 @@
 import React, { useState } from 'react'
 import "./MainPage.css"
-import { Input } from 'antd';
+// import { Input } from 'antd';
 import { GENRATE_OTP } from '../../constant';
 import { Button, message, Space } from 'antd';
 import axios from 'axios';
+import { checkUserExist, validateMobile } from '../../Utils/utills';
+import { Cascader, Input, Select } from 'antd';
+const { Option } = Select;
 
 
+const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader , countryCode, setCountryCode }) => {
 
-const MainScreen = ({ messageApi,mobile,setpage, setmobile, loader, setloader }) => {
+ 
+  const handleCountryCode = (value) => {
+    setCountryCode(value);
+  };
+  
+  const countryCodeSelect = (
+    <Select value={countryCode} onChange={handleCountryCode} >
+      <Option value="+91">+91</Option>
+    </Select>
+  );
+
 
 
   const handleOnClick = async () => {
+    if (!validateMobile(mobile, messageApi)) return;
+
     try {
-      const regex = /^(\+\d{1,3}[- ]?)?\d{10}$/
-      if (!mobile.match(regex)) {
-        messageApi.open({
-          type: 'error',
-          content: 'Not a valid number',
-        });
-      }
 
       const payload = {
         mobile,
-        countryCode: "+91"
+        countryCode: countryCode
       }
 
       const headers = {
@@ -32,15 +41,15 @@ const MainScreen = ({ messageApi,mobile,setpage, setmobile, loader, setloader })
       setloader(true)
       let res = await axios.post(GENRATE_OTP, payload, { headers })
       setloader(false)
-     
-      if (res.data.statusCode == 200) {
+
+      if (res.data.statusCode === 200) {
         messageApi.open({
           type: 'success',
           content: res.data.message,
         });
         setpage("otp")
       }
-      else{
+      else {
         setloader(false)
         messageApi.open({
           type: 'warning',
@@ -60,7 +69,7 @@ const MainScreen = ({ messageApi,mobile,setpage, setmobile, loader, setloader })
 
   return (
     <div className='main-mobile'>
-     
+
       <div className='left__main-mobile'>
         <h1>Welcome to BoAt</h1>
       </div>
@@ -71,12 +80,15 @@ const MainScreen = ({ messageApi,mobile,setpage, setmobile, loader, setloader })
             <h2>Delete User Accout</h2>
           </div>
           <div className="right_main-mobile-card-body">
-            <Input
-              placeholder="Enter Mobile Number"
+      
+
+            <Input addonBefore={countryCodeSelect} placeholder="Enter Mobile Number"
               size='large'
               onChange={(e) => setmobile(e.target.value)}
               value-={mobile}
               className='mobile-iput' />
+
+
             <Button type="primary" onClick={() => handleOnClick()}>Generate OTP</Button>
           </div>
           <div className="right_main-mobile-card-action">

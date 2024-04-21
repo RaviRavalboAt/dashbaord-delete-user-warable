@@ -7,11 +7,15 @@ import SuccessPage from "./Screen/SuccessScreen/SuccessPage"
 import {  Spin, Switch } from 'antd';
 import { Button, message, Space } from 'antd';
 
+
+
 function App() {
   const [page, setpage] = useState("main")
   const [mobile, setmobile] = useState('')
   const [loader, setloader] = useState(false)
   const [messageApi, contextHolder] = message.useMessage();
+  const [countryCode, setCountryCode] = useState('+91');
+
 
   return (
     <div className='app'>
@@ -20,6 +24,8 @@ function App() {
    <PageLayout>
     {page === "main" ?  
     <MainPage 
+    countryCode={countryCode}
+    setCountryCode={(countryCode) => setCountryCode(countryCode)}
     messageApi={messageApi}
     mobile={mobile}
     setmobile={(mobile) =>setmobile(mobile) }
@@ -32,6 +38,7 @@ function App() {
 
     {page === "otp" ?  
     <OTPVerificationPage  
+    countryCode={countryCode}
     messageApi={messageApi}
     mobile={mobile}
     setmobile={(mobile) =>setmobile(mobile) }
