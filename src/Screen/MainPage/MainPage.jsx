@@ -9,7 +9,7 @@ import { Cascader, Input, Select } from 'antd';
 const { Option } = Select;
 
 
-const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader , countryCode, setCountryCode }) => {
+const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader, countryCode, setCountryCode, countryCodesData }) => {
 
 
   const handleCountryCode = (value) => {
@@ -18,7 +18,13 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader 
 
   const countryCodeSelect = (
     <Select value={countryCode} onChange={handleCountryCode} >
-      <Option value="+91">+91</Option>
+      {countryCodesData && countryCodesData?.map((item) => (
+        item.status === 'active' && item.supported === true ? (
+          <Option key={item?.id} value={item?.code}>
+            {item?.code}
+          </Option>
+        ) : null
+      ))}
     </Select>
   );
 
@@ -41,7 +47,7 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader 
       setloader(true)
       let res = await axios.post(GENRATE_OTP, payload, { headers })
       setloader(false)
-    
+
       if (res.data.statusCode === 200) {
         messageApi.open({
           type: 'success',
@@ -61,7 +67,7 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader 
       if (err.response) {
         const statusCode = err.response.status;
         switch (statusCode) {
-          case 400:
+          case 401:
             setloader(false)
             messageApi.open({
               type: 'warning',

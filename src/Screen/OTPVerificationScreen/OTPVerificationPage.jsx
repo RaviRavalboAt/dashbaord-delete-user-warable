@@ -42,7 +42,8 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader, countryCod
         const authToken = res.data.data.token;
 
         const payload = {
-          "mobile": mobile
+          "mobile": mobile,
+          "countryCode": countryCode
         };
 
 

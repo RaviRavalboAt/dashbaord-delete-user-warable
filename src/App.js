@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import PageLayout from './Layout/PageLayout';
 import MainPage from "./Screen/MainPage/MainPage"
@@ -6,6 +6,8 @@ import OTPVerificationPage from "./Screen/OTPVerificationScreen/OTPVerificationP
 import SuccessPage from "./Screen/SuccessScreen/SuccessPage"
 import {  Spin, Switch } from 'antd';
 import { Button, message, Space } from 'antd';
+import { COUNTRY_CODE } from './constant';
+import axios from 'axios';
 
 
 
@@ -16,7 +18,21 @@ function App() {
   const [messageApi, contextHolder] = message.useMessage();
   const [countryCode, setCountryCode] = useState('+91');
 
+  const [countryCodesData, setCountryCodesData] = useState()
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(COUNTRY_CODE);
+        setCountryCodesData(response.data.data)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
+    fetchData();
+  }, []);
+
+  
   return (
     <div className='app'>
        {contextHolder}
@@ -25,6 +41,7 @@ function App() {
     {page === "main" ?  
     <MainPage 
     countryCode={countryCode}
+    countryCodesData={countryCodesData}
     setCountryCode={(countryCode) => setCountryCode(countryCode)}
     messageApi={messageApi}
     mobile={mobile}
