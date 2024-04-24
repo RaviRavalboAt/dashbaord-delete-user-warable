@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./OTPVerificationPage.css"
-import { Input } from 'antd';
+import { Card, Input } from 'antd';
 import { DELETE_URL, GENRATE_OTP, VERIFY_OTP } from '../../constant';
 import { Button, message, Space } from 'antd';
 import axios from 'axios';
@@ -12,6 +12,16 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader, countryCod
   const [otp, setOtp] = useState('')
 
   const handleOnClick = async () => {
+
+    const OTPRegex = /^\d{4}$/
+    if(!otp.match(OTPRegex)) {
+      return messageApi.open({
+        type: 'error',
+        content: 'Enter Number Only',
+      })
+    }
+
+
     try {
       const payload = {
         mobile,
@@ -134,28 +144,41 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader, countryCod
     setOtp('')
   }
 
+  const handleOTPChage = (value,e) => {
+    const OTPRegex = /^\d{4}$/ 
+    if(!value.match(OTPRegex)) {
+      return messageApi.open({
+        type: 'warning',
+        content: 'Enter Number Only',
+      })
+    }
+    setOtp(value)
+  }
+
+
   return (
     <div className='main-mobile'>
 
       <div className='left__main-mobile'>
-        <h1>Welcome to BoAt</h1>
+        <h1>Welcome to boAt</h1>
       </div>
       <div className='rigth__main-mobile'>
+      <Card>
         <div className='right_main-mobile-card'>
           <div className="right_main-mobile-card-header">
-            <img src="https://wearable.boat-lifestyle.com/media/logos/boAt.png" width="100"></img>
-            <h2>Delete User Accout</h2>
+            <img src="https://wearable.boat-lifestyle.com/media/logos/boAt.png" width="100" alt='Logo'></img>
+            <h2>Delete User Account</h2>
+            <h4>Enter OTP</h4>
           </div>
           <div className="right_main-mobile-card-body">
+            <Input.OTP 
+               size="large" 
+               length={4} 
+               onChange={(e) => handleOTPChage(e)}/> 
 
-            <Input
-              placeholder="OTP"
-              size='large'
-              onChange={(e) => setOtp(e.target.value)}
-              value-={otp}
-              className='mobile-iput' />
-
-            <div className='otp-button-position'>
+          </div>
+          <div className="right_main-mobile-card-action">
+           <div className='otp-button-position'>
               <div className='first-btn'>
                 <Button onClick={() => handleResendOtp()}>Resend OTP</Button>
               </div>
@@ -164,10 +187,9 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader, countryCod
                 <Button type="primary" onClick={() => handleOnClick()}>Verify OTP</Button></div>
             </div>
           </div>
-          <div className="right_main-mobile-card-action">
-
-          </div>
         </div>
+      
+      </Card>
       </div>
     </div>
   )

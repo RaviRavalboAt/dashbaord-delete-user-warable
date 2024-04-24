@@ -10,15 +10,15 @@ const MainScreen = () => {
   return (
     <div className='main-mobile'>
           <div className='left__main-mobile'>
-            <h1>Welcome to BoAt</h1>
+            <h1>Welcome to boAt</h1>
           </div>
           <div className='rigth__main-mobile'>
           <div className='right_main-mobile-card'>
-          <div className="right_main-mobile-card-header">
+          <Card> <div className="right_main-mobile-card-header">
             <img src="https://wearable.boat-lifestyle.com/media/logos/boAt.png" width="100"></img>
-            <h2>Delete User Accout</h2>
+            <h2>Delete User Account</h2>
             </div>
-          <Card><Result
+        <Result
     icon={<SmileOutlined />}
     title="User Account Deleted Successfully!"
    

@@ -12,7 +12,7 @@ import axios from 'axios';
 
 
 function App() {
-  const [page, setpage] = useState("main")
+  const [page, setpage] = useState("otp")
   const [mobile, setmobile] = useState('')
   const [loader, setloader] = useState(false)
   const [messageApi, contextHolder] = message.useMessage();
@@ -37,7 +37,7 @@ function App() {
     <div className='app'>
        {contextHolder}
   <Spin spinning={loader} delay={500} tip="Loading .... Please wait">
-   <PageLayout>
+   <PageLayout page={page} setpage={(page) => setpage(page)}>
     {page === "main" ?  
     <MainPage 
     countryCode={countryCode}

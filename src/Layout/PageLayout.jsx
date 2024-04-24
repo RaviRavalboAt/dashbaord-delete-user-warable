@@ -4,10 +4,10 @@ import Header from '../Component/Header/Header'
 import "./PageLayout.css"
 
 
-const PageLayout = ({children}) => {
+const PageLayout = ({children,setpage,page}) => {
   return (
     <div className='main-div'>
-    <Header></Header>
+    <Header page={page} setpage={(page) => setpage(page)}></Header>
     {children}
     <Footer></Footer>
     </div>
