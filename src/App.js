@@ -4,15 +4,15 @@ import PageLayout from './Layout/PageLayout';
 import MainPage from "./Screen/MainPage/MainPage"
 import OTPVerificationPage from "./Screen/OTPVerificationScreen/OTPVerificationPage"
 import SuccessPage from "./Screen/SuccessScreen/SuccessPage"
-import {  Spin, Switch } from 'antd';
-import { Button, message, Space } from 'antd';
+import {  Spin } from 'antd';
+import {  message } from 'antd';
 import { COUNTRY_CODE } from './constant';
 import axios from 'axios';
 
 
 
 function App() {
-  const [page, setpage] = useState("otp")
+  const [page, setpage] = useState("main")
   const [mobile, setmobile] = useState('')
   const [loader, setloader] = useState(false)
   const [messageApi, contextHolder] = message.useMessage();
