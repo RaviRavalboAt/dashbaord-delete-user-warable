@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "./MainPage.css"
 // import { Input } from 'antd';
 import { GENRATE_OTP } from '../../constant';
-import { Button, Card, message, Space } from 'antd';
+import { Button, Card  } from 'antd';
 import axios from 'axios';
-import { checkUserExist, validateMobile } from '../../Utils/utills';
-import { Cascader, Input, Select } from 'antd';
+import {  validateMobile } from '../../Utils/utills';
+import {  Input, Select } from 'antd';
+import boAtImage from "../../Utils/images/boAt.png"
 const { Option } = Select;
+
 
 
 const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader, countryCode, setCountryCode, countryCodesData }) => {
@@ -74,6 +76,13 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader,
               content: 'User not found',
             });
             break;
+            case 400:
+              setloader(false)
+              messageApi.open({
+                type: 'warning',
+                content: 'User not found!!',
+              });
+              break;
         }
       } else {
         setloader(false)
@@ -97,7 +106,7 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader,
         <div className='right_main-mobile-card'>
         <Card>   
           <div className="right_main-mobile-card-header">
-            <img src="https://wearable.boat-lifestyle.com/media/logos/boAt.png" width="100"></img>
+            <img src={boAtImage} width="100" alt='boAt'></img>
             <h2>Delete User Account</h2>
           </div>
           <div className="right_main-mobile-card-body">
