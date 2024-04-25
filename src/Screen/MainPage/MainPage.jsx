@@ -2,7 +2,7 @@ import React from 'react'
 import "./MainPage.css"
 // import { Input } from 'antd';
 import { GENRATE_OTP } from '../../constant';
-import { Button, Card  } from 'antd';
+import { Button, Card, message  } from 'antd';
 import axios from 'axios';
 import {  validateMobile } from '../../Utils/utills';
 import {  Input, Select } from 'antd';
@@ -66,8 +66,25 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader,
       }
     }
     catch (err) {
+      if(err.response.statusCode === 400) {
+        console.log(err.response.message, "This is the 400 message");
+         if(err.response.message === "User not found") {
+          return messageApi.open({
+            type: 'warning',
+            content: 'User not found',
+          });
+         }
+         else {
+          return messageApi.open({
+            type: 'warning',
+            content: 'Retry limit exceeded please try after some time',
+          });
+         }
+      }
+      
       if (err.response) {
         const statusCode = err.response.status;
+        const message = err.response.message
         switch (statusCode) {
           case 401:
             setloader(false)
@@ -78,11 +95,21 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader,
             break;
             case 400:
               setloader(false)
-              messageApi.open({
-                type: 'warning',
-                content: 'User not found!!',
-              });
-              break;
+              if(message === "User not found") {
+                messageApi.open({
+                  type: 'warning',
+                  content: 'User not found!!',
+                });
+                break;
+              }
+              else {
+                messageApi.open({
+                  type: 'warning',
+                  content: 'Retry limit exceeded please try after some time',
+                });
+                break;
+              }
+             
         }
       } else {
         setloader(false)
