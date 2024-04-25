@@ -66,9 +66,9 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader,
       }
     }
     catch (err) {
-      if(err.response.statusCode === 400) {
-        console.log(err.response.message, "This is the 400 message");
-         if(err.response.message === "User not found") {
+      if(err.response.data.statusCode === 400) {
+        setloader(false)
+         if(err.response.data.message === "User not found") {
           return messageApi.open({
             type: 'warning',
             content: 'User not found',
@@ -83,8 +83,8 @@ const MainScreen = ({ messageApi, mobile, setpage, setmobile, loader, setloader,
       }
       
       if (err.response) {
-        const statusCode = err.response.status;
-        const message = err.response.message
+        const statusCode = err.response.data.statusCode;
+        const message = err.response.data.message
         switch (statusCode) {
           case 401:
             setloader(false)
