@@ -137,10 +137,20 @@ const MainScreen = ({ messageApi, setpage, mobile, loader, setloader, countryCod
     }
     catch (err) {
       setloader(false)
-      messageApi.open({
-        type: 'warning',
-        content: 'Something went wrong',
-      });
+      const statusCode = err.response.status;
+      const message = err.response.message
+      if(message === "User not found") {
+        messageApi.open({
+          type: 'warning',
+          content: 'User not found!!',
+        });
+      }
+      else {
+        messageApi.open({
+          type: 'warning',
+          content: 'Retry limit exceeded please try after some time',
+        });
+      }
     }
     setOtp('')
   }
